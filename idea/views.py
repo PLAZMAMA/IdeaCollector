@@ -2,7 +2,7 @@ from django.http import JsonResponse, HttpResponseBadRequest
 from django.views import View
 from django.shortcuts import render
 from idea.forms import IdeaForm
-from idea.models import Idea
+import idea.models as models
 from django.views.decorators.csrf import csrf_exempt
 
 
@@ -21,11 +21,11 @@ class Idea(View):
     def get(self, request, id=None):
         """In a case where the id is given, it returns the idea that matched the provided id. Otherwise it returns all of the ideas in the database"""
         if id:
-            chosen_idea = Idea.objects.get(id=id)
+            chosen_idea = models.Idea.objects.get(id=id)
             return JsonResponse({'idea': {'title': chosen_idea.title, 'description': chosen_idea.description, 'picture': f'127.0.0.1:8000/{chosen_idea.picture}'}})
 
         
-        ideas = [{'title': idea.title, 'description': idea.description, 'picture': f'127.0.0.1:8000/{idea.picture}'} for idea in Idea.objects.all()]
+        ideas = [{'title': idea.title, 'description': idea.description, 'picture': f'127.0.0.1:8000/{idea.picture}'} for idea in models.Idea.objects.all()]
         return JsonResponse({'ideas': ideas})
 
     def post(self, request, id=None):
@@ -35,7 +35,7 @@ class Idea(View):
 
         else:
             try:
-                Idea.objects.create(title=request.POST['title'], description=request.POST['description'], picture = request.FILES['picture'])
+                models.Idea.objects.create(title=request.POST['title'], description=request.POST['description'], picture = request.FILES['picture'])
 
             except:
                 return HttpResponseBadRequest('the required arguments were not given or not given properly')
@@ -44,7 +44,7 @@ class Idea(View):
         """If given an id, it modifies the whole idea with the matching id"""
         if id != '':
             try:
-                selected_idea = Idea.objects.get(id=id)
+                selected_idea = models.Idea.objects.get(id=id)
                 selected_idea.title = request.PUT['title']
                 selected_idea.title = request.PUT['description']
                 selected_idea.title = request.FILES['picture']
@@ -63,7 +63,7 @@ class Idea(View):
             try:
                 req_dict = request.PATCH.dict()
                 files_dict = request.FILES.dict()
-                chosen_idea = Idea.get(id=id)
+                chosen_idea = models.Idea.get(id=id)
                 if 'title' in req_dict:
                     chosen_idea.title = req_dict['title']
                 
@@ -82,7 +82,7 @@ class Idea(View):
         """When given an id, it deletes the idea with a matching id. Otherwise it deletes all of the ideas"""
         if id != '':
             try:
-                Idea.objects.get(id=id).delete()
+                models.Idea.objects.get(id=id).delete()
             
             except:
                 return HttpResponseBadRequest('id was not found')
