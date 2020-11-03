@@ -58,7 +58,6 @@ class Idea(View):
 
     def patch(self, request, id=None):
         """If given an id, it modifies the only the provided changes idea with the matching id"""
-        print('got into the function')
         if id != '':
             try:
                 req_dict = request.PATCH.dict()
