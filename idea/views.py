@@ -22,7 +22,7 @@ class Idea(View):
         """In a case where the id is given, it returns the idea that matched the provided id. Otherwise it returns all of the ideas in the database"""
         if id:
             chosen_idea = models.Idea.objects.get(id=id)
-            return JsonResponse({'idea': {'title': chosen_idea.title, 'description': chosen_idea.description, 'picture': f'127.0.0.1:8000/{chosen_idea.picture}'}})
+            return JsonResponse({'title': chosen_idea.title, 'description': chosen_idea.description, 'picture': f'127.0.0.1:8000/{chosen_idea.picture}'})
 
         
         ideas = [{'title': idea.title, 'description': idea.description, 'picture': f'127.0.0.1:8000/{idea.picture}'} for idea in models.Idea.objects.all()]
