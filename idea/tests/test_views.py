@@ -1,23 +1,26 @@
 from django.test import TestCase
 from idea.models import Idea
+import json
 
 class TestIdea(TestCase):
     def tearDown(self):
         Idea.objects.all().delete()
 
     def test_get(self):
-        idea1 = Idea.objects.create(title='test1', description='description1')
-        idea2 = Idea.objects.create(title='test2', description='description2')
-        
+        ideas = [Idea.objects.create(title='test0', description='description0'), Idea.objects.create(title='test1', description='description1')]
         #single
-        response = self.client.get(f'/ideas/{idea1.id}/')
-        self.assertEqual(idea1.title, response['idea']['title'])
-        self.assertEqual(idea1.description, response['idea']['description'])
+        binary = self.client.get(f'/ideas/{ideas[0].id}/').content
+        response = json.loads(binary.decode())
+
+        self.assertEqual(ideas[0].title, response['title'])
+        self.assertEqual(ideas[0].description, response['description'])
 
         #all
-        response = self.client.get('/ideas/')
-
-        self.assertEqual(f'test1, description1', f"{response['ideas'][0].title}, {response['ideas'][0].description}", f'test2, description2', f"{response['ideas'][1].title}, {response['ideas'][1].description}")
+        binary = self.client.get('/ideas/').content
+        response = json.loads(binary.decode())
+        for i in range(len(ideas)):
+            self.assertEqual(ideas[i].title, response['ideas'][i]['title'])
+            self.assertEqual(ideas[i].description, response['ideas'][i]['description'])
 
     def test_post(self):
         with open('idea_collector/media/images/test_picture.jpeg', 'r') as pic:
