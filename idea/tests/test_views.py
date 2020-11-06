@@ -1,5 +1,6 @@
 from django.test import TestCase
 from idea.models import Idea
+from idea_collector.settings import MEDIA_ROOT
 import json
 
 class TestIdea(TestCase):
@@ -23,25 +24,33 @@ class TestIdea(TestCase):
             self.assertEqual(ideas[i].description, response['ideas'][i]['description'])
 
     def test_post(self):
-        with open('idea_collector/media/images/test_picture.jpeg', 'r') as pic:
-            self.client.post('127.0.0.1:8000/ideas/', {'title': 'test1', 'description': 'description1', 'picture': pic}, content_type='multipart/form-data')
+        with open(f'{MEDIA_ROOT}/test_picture.jpeg', 'rb') as pic:
+            binary = self.client.post('/ideas/', {'title': 'test1', 'description': 'description1', 'picture': pic }).content
+            binary = binary.decode()
 
-        uploaded_idea = Idea.objects.get(id=1)
-        self.assertEquals([uploaded_idea.title, uploaded_idea.description], ['test3', 'description3'])
+        uploaded_idea = Idea.objects.get(id=json.loads(binary)['idea_id'])
+        self.assertEquals([uploaded_idea.title, uploaded_idea.description], ['test1', 'description1'])
 
     def test_put(self):
-        Idea.objects.create(title='test1', description='description1')
-        with open('idea_collector/media/images/test_picture.jpeg', 'r') as pic:
-            self.client.put('127.0.0.1:8000/ideas/1', {'title': 'test2', 'description': 'description2', 'picture': pic}, content_type='multipart/form-data')
-        changed_idea = Idea.objects.get(id=1)
-        self.assertEquals([changed_idea.title, changed_idea.description], ['test2', 'description2'])
+        idea = Idea.objects.create(title='test1', description='description1')
+        idea.id = 10
+        idea.save()
+        with open(f'{MEDIA_ROOT}/test_picture.jpeg', 'rb') as pic:
+            self.client.put('/ideas/10/', {'title': 'test2', 'description': 'description2', 'picture': pic})
+
+        changed_idea = Idea.objects.get(id=10)
+        self.assertEqual(changed_idea.title, 'test2')
+        self.assertEqual(changed_idea.description, 'description2')
 
     def test_patch(self):
-        Idea.objects.create(title='test1', description='description1')
-        self.client.patch('127.0.0.1:8000/ideas/1', {'description': 'description2'})
-        changed_idea = Idea.objects.get(id=1)
+        idea = Idea.objects.create(title='test1', description='description1')
+        idea.id = 20
+        idea.save()
+        self.client.patch('/ideas/20/', {'description': 'description2'})
+        changed_idea = Idea.objects.get(id=20)
+        self.assertEqual(changed_idea.title, 'test2')
         self.assertEqual(changed_idea.description, 'description2')
 
     def test_delete(self):
-        self.client.delete('127.0.0.1:8000/ideas/1')
+        self.client.delete('/ideas/1')
         
