@@ -1,9 +1,9 @@
 from django.http import JsonResponse, HttpResponseBadRequest
-from django.views import View
+from rest_framework.views import APIView
+from rest_framework.response import Response
 from django.shortcuts import render
 from idea.forms import IdeaForm
 import idea.models as models
-from django.http.multipartparser import MultiPartParser
 import logging
 
 
@@ -19,16 +19,16 @@ create-post
 read(plural)-get
 """
 
-class Idea(View):
+class Idea(APIView):
     def get(self, request, id=None):
         """In a case where the id is given, it returns the idea that matched the provided id. Otherwise it returns all of the ideas in the database"""
         if id:
             chosen_idea = models.Idea.objects.get(id=id)
-            return JsonResponse({'title': chosen_idea.title, 'description': chosen_idea.description, 'picture': f'127.0.0.1:8000/{chosen_idea.picture}'})
+            return Response({'title': chosen_idea.title, 'description': chosen_idea.description, 'picture': f'/{chosen_idea.picture}'})
 
         
         ideas = [{'title': idea.title, 'description': idea.description, 'picture': f'127.0.0.1:8000/{idea.picture}'} for idea in models.Idea.objects.all()]
-        return JsonResponse({'ideas': ideas})
+        return Response({'ideas': ideas})
 
     def post(self, request, id=None):
         """If not given an id, it creates an object from the request body(POST, FILES)"""
@@ -38,7 +38,7 @@ class Idea(View):
         else:
             try:
                 idea = models.Idea.objects.create(title=request.POST['title'], description=request.POST['description'], picture = request.FILES['picture'])
-                return JsonResponse({'idea_id': idea.id})
+                return Response({'idea_id': idea.id})
 
             except:
                 return HttpResponseBadRequest('the required arguments were not given or not given properly')
@@ -47,10 +47,7 @@ class Idea(View):
         """If given an id, it modifies the whole idea with the matching id"""
         if id:
             try:
-                #logging.critical(f"TITLE:{type(request.body)}")
                 selected_idea = models.Idea.objects.get(id=id)
-                body = MultiPartParser(request.META, request, request.upload_handlers).parse()
-                logging.critical(f'BODY {request.FILES}')
                 selected_idea.title = request.body['title']
                 #selected_idea.description = request.body['description']
                 #selected_idea.picture = request.body['picture']

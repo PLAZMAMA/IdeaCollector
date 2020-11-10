@@ -1,9 +1,13 @@
 from django.test import TestCase
 from idea.models import Idea
 from idea_collector.settings import MEDIA_ROOT
+from rest_framework.test import APIClient
 import json
 
 class TestIdea(TestCase):
+    def setUp(self):
+        self.client = APIClient()
+
     def tearDown(self):
         Idea.objects.all().delete()
 
@@ -24,7 +28,7 @@ class TestIdea(TestCase):
             self.assertEqual(ideas[i].description, response['ideas'][i]['description'])
 
     def test_post(self):
-        with open(f'{MEDIA_ROOT}/test_picture.jpeg', 'rb') as pic:
+        with open(f'{MEDIA_ROOT}/images/test_picture.jpeg', 'rb') as pic:
             binary = self.client.post('/ideas/', {'title': 'test1', 'description': 'description1', 'picture': pic }).content
             binary = binary.decode()
 
@@ -35,7 +39,7 @@ class TestIdea(TestCase):
         idea = Idea.objects.create(title='test1', description='description1')
         idea.id = 10
         idea.save()
-        with open(f'{MEDIA_ROOT}/test_picture.jpeg', 'rb') as pic:
+        with open(f'{MEDIA_ROOT}/images/test_picture.jpeg', 'rb') as pic:
             self.client.put('/ideas/10/', {'title': 'test2', 'description': 'description2', 'picture': pic})
 
         changed_idea = Idea.objects.get(id=10)
