@@ -4,8 +4,8 @@ from rest_framework.response import Response
 from django.shortcuts import render
 from idea.forms import IdeaForm
 import idea.models as models
+import json
 import logging
-
 
 
 """
@@ -45,15 +45,22 @@ class Idea(APIView):
 
     def put(self, request, id=None):
         """If given an id, it modifies the whole idea with the matching id"""
+        #logging.critical(request.body)
         if id:
-            try:
-                selected_idea = models.Idea.objects.get(id=id)
-                selected_idea.title = request.body['title']
+            logging.critical('initiated')
+            #try:
+            body = json.loads(request.body.decode())
+            selected_idea = models.Idea.objects.get(id=id)
+            logging.critical('start')
+            selected_idea.title = body['title']
+            logging.critical('getting there')
                 #selected_idea.description = request.body['description']
                 #selected_idea.picture = request.body['picture']
-                selected_idea.save()
-            except:
-                return HttpResponseBadRequest('all of the required arguments were not given or not given properly')
+            logging.critical('working')
+            selected_idea.save()
+            logging.critical(selected_idea)
+            #except:
+            #    return HttpResponseBadRequest('all of the required arguments were not given or not given properly')
 
         else:
             return HttpResponseBadRequest('an id wasnt given')
