@@ -1,7 +1,6 @@
-from rest_framework.test import APITestCase
+from rest_framework.test import APITestCase, APIClient
 from idea.models import Idea
 from idea_collector.settings import MEDIA_ROOT
-from rest_framework.test import APIClient
 import json
 
 class TestIdea(APITestCase):

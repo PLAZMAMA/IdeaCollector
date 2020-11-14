@@ -1,9 +1,9 @@
-from django.http import JsonResponse, HttpResponseBadRequest
-from rest_framework.views import APIView
+from django.http import HttpResponseBadRequest
+from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
 from django.shortcuts import render
 from idea.forms import IdeaForm
-import idea.models as models
+from idea.models import IdeaModel
 import json
 import logging
 
@@ -19,8 +19,8 @@ create-post
 read(plural)-get
 """
 
-class Idea(APIView):
-    def get(self, request, id=None):
+class IdeaView(ModelViewSet):
+    def get(self, request, pk=None):
         """In a case where the id is given, it returns the idea that matched the provided id. Otherwise it returns all of the ideas in the database"""
         if id:
             chosen_idea = models.Idea.objects.get(id=id)
@@ -30,7 +30,7 @@ class Idea(APIView):
         ideas = [{'title': idea.title, 'description': idea.description, 'picture': f'127.0.0.1:8000/{idea.picture}'} for idea in models.Idea.objects.all()]
         return Response({'ideas': ideas})
 
-    def post(self, request, id=None):
+    def post(self, request, pk=None):
         """If not given an id, it creates an object from the request body(POST, FILES)"""
         if id:
             return HttpResponseBadRequest('unneccesary id was given')
@@ -43,7 +43,7 @@ class Idea(APIView):
             except:
                 return HttpResponseBadRequest('the required arguments were not given or not given properly')
 
-    def put(self, request, id=None):
+    def put(self, request, pk=None):
         """If given an id, it modifies the whole idea with the matching id"""
         #logging.critical(request.body)
         if id:
@@ -65,7 +65,7 @@ class Idea(APIView):
         else:
             return HttpResponseBadRequest('an id wasnt given')
 
-    def patch(self, request, id=None):
+    def patch(self, request, pk=None):
         """If given an id, it modifies the only the provided changes idea with the matching id"""
         if id:
             try:
@@ -86,7 +86,7 @@ class Idea(APIView):
         else:
             return HttpResponseBadRequest('id was not found')
 
-    def delete(self, request, id=None):
+    def delete(self, request, pk=None):
         """When given an id, it deletes the idea with a matching id. Otherwise it deletes all of the ideas"""
         if id != '':
             try:

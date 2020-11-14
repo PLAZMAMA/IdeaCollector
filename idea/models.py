@@ -1,7 +1,7 @@
 from django.db import models
 from datetime import datetime
 
-class Idea(models.Model):
+class IdeaModel(models.Model):
     title = models.CharField(max_length=128)
     description = models.TextField(max_length=512)
     picture = models.ImageField(upload_to=f'images', null=True)
