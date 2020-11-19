@@ -1,5 +1,5 @@
 from django import forms
-from idea.models import Idea
+from idea.models import IdeaModel
 
 #class IdeaForm(forms.Form):
 #    title = forms.CharField(max_length=150)
@@ -8,5 +8,5 @@ from idea.models import Idea
 
 class IdeaForm(forms.ModelForm):
     class Meta:
-        model = Idea
+        model = IdeaModel
         fields = ['title', 'description', 'picture']

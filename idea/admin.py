@@ -1,7 +1,7 @@
 from django.contrib import admin
-from idea.models import Idea
+from idea.models import IdeaModel
 
 class IdeaAdmin(admin.ModelAdmin):
     pass
 
-admin.site.register(Idea, IdeaAdmin)
+admin.site.register(IdeaModel, IdeaAdmin)

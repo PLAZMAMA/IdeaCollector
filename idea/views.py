@@ -20,7 +20,7 @@ create-post
 read(plural)-get
 """
 
-class IdeaView(ModelViewSet):
+class IdeaViewSet(ModelViewSet):
     queryset = IdeaModel.objects.all()
     serializer_class = IdeaSerializer
     
