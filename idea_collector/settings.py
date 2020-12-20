@@ -11,9 +11,14 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+import environ
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+#getting enviornment variables
+env = environ.Env()
+environ.Env.read_env(BASE_DIR + '/pgsql.env')
 
 
 # Quick-start development settings - unsuitable for production
@@ -75,9 +80,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'idea_collector.wsgi.application'
 
-#NOSE_ARGS = ['--nocapture',
-#              '--nologcapture']
-
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
@@ -89,8 +91,9 @@ DATABASES = {
 
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'postgres',
-        'USER': 'postgres',
-        'HOST': 'db',
+        'USER': env('SQLUSER'),
+        'PASSWORD': env('PASSWORD'),
+        'HOST': env('HOST'),
         'PORT': 5432
     }
 }

@@ -1,7 +1,6 @@
 from rest_framework.test import APITestCase, APIClient
 from idea.models import IdeaModel
 from idea_collector.settings import MEDIA_ROOT
-import coreapi
 import json
 
 
