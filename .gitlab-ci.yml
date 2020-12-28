@@ -7,13 +7,19 @@ variables:
 services:
   - docker:dind
 
+before_script:
+  - docker login -u=$USERN -p=$PASS
+  - apk add--no-cache py-pip
+  - pip install docker-compose
+
+
 build-job:
   stage: build
   script:
     - docker build .
     - docker tag python:3.6 maorc112/idea_collector_web:latest
-    - docker login -u=$USERN -p=$PASS
     - docker push maorc112/idea_collector_web:latest
+
     
 test-job:
   stage: test
