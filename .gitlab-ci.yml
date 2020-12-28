@@ -9,6 +9,8 @@ services:
 
 before_script:
   - docker login -u=$USERN -p=$PASS
+  - sudo curl -L "https://github.com/docker/compose/releases/download/1.27.4/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+  - sudo chmod +x /usr/local/bin/docker-compose
 
 build-job:
   stage: build
@@ -21,7 +23,7 @@ build-job:
 test-job:
   stage: test
   script:
-    - pipenv run docker-compose up -d
+    - docker-compose up -d
     - docker exec -it idea_collector_web_1 bash
     - pipenv run python manage.py test
 
