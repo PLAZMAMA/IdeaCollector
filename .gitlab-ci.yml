@@ -9,9 +9,6 @@ services:
 
 before_script:
   - docker login -u=$USERN -p=$PASS
-  - apk add --no-cache py-pip
-  - pip install docker-compose
-
 
 build-job:
   stage: build
@@ -24,7 +21,7 @@ build-job:
 test-job:
   stage: test
   script:
-    - docker-compose up -d
+    - pipenv run docker-compose up -d
     - docker exec -it idea_collector_web_1 bash
     - pipenv run python manage.py test
 
