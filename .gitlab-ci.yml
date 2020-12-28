@@ -12,6 +12,7 @@ build-job:
   script:
     - docker build .
     - docker tag python:3.6 maorc112/idea_collector_web:latest
+    - docker login -u=$USERN -p=$PASS
     - docker push maorc112/idea_collector_web:latest
     
 test-job:
