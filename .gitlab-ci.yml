@@ -4,10 +4,12 @@ build-job:
     - docker build .
     - docker tag python:3.6 maorc112/idea_collector_web:latest
     - docker push maorc112/idea_collector_web:latest
-
+    
 test-job:
   stage: test
   script:
+    - docker-compose up -d
+    - docker exec -it idea_collector_web_1 bash
     - pipenv run python manage.py test
 
 deploy-prod:
@@ -16,4 +18,4 @@ deploy-prod:
     - echo "This job deploys something from the $CI_COMMIT_BRANCH branch."
 
 default:
-  image: maorc112/idea_collector_web:latest
+  image: docker
