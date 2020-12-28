@@ -9,7 +9,7 @@ services:
 
 before_script:
   - docker login -u=$USERN -p=$PASS
-  - apk add--no-cache py-pip
+  - apk add --no-cache py-pip
   - pip install docker-compose
 
 
