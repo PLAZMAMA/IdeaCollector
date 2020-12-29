@@ -16,12 +16,11 @@ build-job:
     - docker build .
     - docker tag python:3.6 maorc112/idea_collector_web:latest
     - docker push maorc112/idea_collector_web:latest
-
-    
+ 
 test-job:
   stage: test
   script:
-    - sudo docker-compose up -d
+    - docker-compose up -d
     - docker exec -it idea_collector_web_1 bash
     - pipenv run python manage.py test
 
