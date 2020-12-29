@@ -21,7 +21,6 @@ test-job:
   stage: test
   script:
     - docker-compose up -d
-    - docker exec maorc112/idea_collector_web:latest pipenv run python manage.py test
 
 deploy-prod:
   stage: deploy
