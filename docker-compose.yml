@@ -13,6 +13,7 @@ services:
       - postgres_data:/var/lib/postgresql/data/
   web:
     image: "maorc112/idea_collector_web:latest"
+    command: "pipenv run python manage.py test"
     volumes:
       - .:/code
     ports:
