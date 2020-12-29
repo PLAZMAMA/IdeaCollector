@@ -20,7 +20,7 @@ build-job:
 test-job:
   stage: test
   script:
-    - docker-compose up -d
+    - docker-compose up -d --build
     - docker exec -it idea_collector_web_1 bash
     - pipenv run python manage.py test
 
