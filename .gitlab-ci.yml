@@ -21,7 +21,7 @@ test-job:
   stage: test
   script:
     - docker-compose up -d
-    - docker exec -it idea_collector_web_1 bash
+    - docker exec -it ideacollector_web_1 bash
     - pipenv run python manage.py test
 
 deploy-prod:
