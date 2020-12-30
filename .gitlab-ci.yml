@@ -1,4 +1,4 @@
-image: tiangolo/docker-with-compose
+image: docker:latest
 
 variables:
   DOCKER_DRIVER: overlay2
@@ -9,6 +9,8 @@ services:
 
 before_script:
   - docker login -u=$USERN -p=$PASS
+  - apk add --update py-pip
+  - pip install docker-compose
 
 build-job:
   stage: build
