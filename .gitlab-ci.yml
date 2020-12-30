@@ -9,7 +9,9 @@ services:
 
 before_script:
   - docker login -u=$USERN -p=$PASS
-  - apk add --update py-pip python-dev libffi-dev openssl-dev gcc libc-dev make
+  - apk add --update py-pip 
+  - apk add python-dev 
+  - apk add libffi-dev openssl-dev gcc libc-dev make
   - pip install docker-compose
 
 build-job:
