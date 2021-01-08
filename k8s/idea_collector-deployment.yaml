@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: idea_collector-deployment
+  labels:
+    app: idea_collector
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: idea_collector
+  template:
+    metadata:
+      labels:
+        app: idea_collector
+    spec:
+      containers:
+      - name: idea_collector
+        image: 
+        ports:
+        - containerPort: 80
