@@ -9,20 +9,20 @@ services:
 
 before_script:
   - docker login -u=$USERN -p=$PASS
-  - apk add --update py-pip libffi-dev openssl-dev gcc libc-dev make python3-dev
-  - pip install docker-compose
 
 build-job:
   stage: build
   script:
     - docker build .
-    - docker tag python:3.6 maorc112/idea_collector_web:latest
-    - docker push maorc112/idea_collector_web:latest
+    - docker tag python:3.6 maorc112/idea_collector_web:$CI_COMMIT_SHORT_SHA
+    - docker push maorc112/idea_collector_web:$CI_COMMIT_SHORT_SHA
  
 test-job:
   stage: test
   script:
-    - docker-compose up
+    - mv idea_collector/test_settings.py idea_collector/settings.py
+    - docker run -it maorc112/idea_collector_web:$CI_COMMIT_SHORT_SHA
+    - pipenv run python manage.py test
 
 deploy-prod:
   stage: deploy
