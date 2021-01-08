@@ -9,4 +9,4 @@ RUN pip install pipenv
 COPY Pipfile Pipfile.lock /code/
 RUN pipenv install
 
-COPY . /code/
+ADD . /code/
