@@ -13,16 +13,14 @@ before_script:
 build-job:
   stage: build
   script:
-    - docker build .
-    - docker tag python:3.6 maorc112/idea_collector_web:$CI_COMMIT_SHORT_SHA
+    - docker build -t maorc112/idea_collector_web:$CI_COMMIT_SHORT_SHA
     - docker push maorc112/idea_collector_web:$CI_COMMIT_SHORT_SHA
  
 test-job:
   stage: test
   script:
     - mv idea_collector/test_settings.py idea_collector/settings.py
-    - docker run -it maorc112/idea_collector_web:$CI_COMMIT_SHORT_SHA
-    - pipenv run python manage.py test
+    - docker run maorc112/idea_collector_web:$CI_COMMIT_SHORT_SHA pipenv run python manage.py test
 
 deploy-prod:
   stage: deploy
