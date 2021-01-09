@@ -20,7 +20,7 @@ test-job:
   stage: test
   script:
     - mv idea_collector/test_settings.py idea_collector/settings.py
-    - docker run maorc112/idea_collector_web:$CI_COMMIT_SHORT_SHA pipenv run python manage.py test
+    - docker run maorc112/idea_collector_web:$CI_COMMIT_SHORT_SHA python manage.py test
 
 deploy-prod:
   stage: deploy
