@@ -3,9 +3,6 @@ image: docker:latest
 variables:
   DOCKER_DRIVER: overlay2
   DOCKER_TLS_CERTDIR: ""
-  SQLUSER: postgres
-  PASSWORD: postgres
-  HOST: db
     
 services: 
   - docker:dind
@@ -23,6 +20,7 @@ test-job:
   stage: test
   script:
     - mv idea_collector/test_settings.py idea_collector/settings.py
+    - cat idea_collector/settings.py
     - docker run maorc112/idea_collector_web:$CI_COMMIT_SHORT_SHA python manage.py test
 
 deploy-prod:
