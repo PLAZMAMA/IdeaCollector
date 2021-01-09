@@ -19,7 +19,7 @@ build-job:
 test-job:
   stage: test
   script:
-    - docker run maorc112/idea_collector_web:$CI_COMMIT_SHORT_SHA mv /code/idea_collector/test_settings.py /code/idea_collector/settings.py && python manage.py test
+    - docker run maorc112/idea_collector_web:$CI_COMMIT_SHORT_SHA python manage.py test
 
 deploy-prod:
   stage: deploy
