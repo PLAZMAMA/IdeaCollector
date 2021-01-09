@@ -3,6 +3,9 @@ image: docker:latest
 variables:
   DOCKER_DRIVER: overlay2
   DOCKER_TLS_CERTDIR: ""
+  SQLUSER: postgres
+  PASSWORD: postgres
+  HOST: db
     
 services: 
   - docker:dind
