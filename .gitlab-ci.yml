@@ -13,7 +13,7 @@ before_script:
 build-job:
   stage: build
   script:
-    - docker build -t maorc112/idea_collector_web:$CI_COMMIT_SHORT_SHA
+    - docker build -t maorc112/idea_collector_web:$CI_COMMIT_SHORT_SHA .
     - docker push maorc112/idea_collector_web:$CI_COMMIT_SHORT_SHA
  
 test-job:
