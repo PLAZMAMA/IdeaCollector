@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: idea_collector_db-deployment
+  labels:
+    app: idea_collector_db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: idea_collector_db
+  template:
+    metadata:
+      labels:
+        app: idea_collector_db
+    spec:
+      containers:
+      - name: idea_collector_db
+        image: postgres:11
+        ports:
+        - containerPort: 8080
+      volumeMounts:
+        - name: db
+          mountpath: var/lib/postgresql/data
+  volumes:
+    - name: db
+      persistentVolumeClaim:
+        claimName: dbclaim
