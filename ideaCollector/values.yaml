@@ -91,4 +91,4 @@ web:
   pod_name: idea-collector
   container_name: idea-collector
   replicas: 1
-  image: None
+  image: needsToBeOverriden
