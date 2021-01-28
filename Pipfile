@@ -12,6 +12,9 @@ psycopg2-binary = "*"
 djangorestframework = "*"
 coreapi = "*"
 django-environ = "*"
+uwsgi = "*"
+whitenoise = "*"
+daphne = "*"
 
 [requires]
 python_version = "3.6"
