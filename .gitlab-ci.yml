@@ -24,4 +24,4 @@ test-job:
 deploy-prod:
   stage: deploy
   script:
-    - echo helm update idea-collector ideaCollector --set postgresqlUsername=POSTGRESQLUSERNAME --set postgresqlPassword=POSTGRESQLPASSWORD --set postgresqlHost=POSTGRESQLHOST
+    - echo helm update idea-collector ideaCollector --set postgresql.postgresqlUsername=POSTGRESUSERNAME --set postgresql.postgresqlPassword=POSTGRESPASSWORD --set web.image=image
