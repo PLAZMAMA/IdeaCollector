@@ -17,5 +17,23 @@ spec:
       containers:
       - name: {{ .Values.web.container_name }}
         image: {{ .Values.web.image }}
+        command: ["/bin/bash", "-c"]
+        args: ["daphne -p 8080 idea_collector.asgi:application"]
         ports:
         - containerPort: 8080
+        env:
+        - name: POSTGRESQLUSERNAME
+          valueFrom:
+            secretKeyRef:
+              name: postgres-credentials
+              key: username
+        - name: POSTGRESQLPASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: postgres-credentials
+              key: password
+        - name: POSTGRESQLHOST
+          valueFrom:
+            secretKeyRef:
+              name: postgres-credentials
+              key: host
