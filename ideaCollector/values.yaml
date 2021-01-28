@@ -81,7 +81,6 @@ affinity: {}
 postgresql:
   postgresqlUsername: needsToBeOverriden
   postgresqlPassword: needsToBeOverriden
-  postgresqlHost: needsToBeOverriden
   gloabl:
     storageClass: standart
 
