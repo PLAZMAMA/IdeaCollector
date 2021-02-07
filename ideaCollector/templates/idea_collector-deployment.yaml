@@ -16,9 +16,9 @@ spec:
     spec:
       containers:
       - name: {{ .Values.web.container_name }}
-        image: {{ .Values.web.image }}
-        command: ["/bin/bash", "-c"]
-        args: ["daphne -p 8080 idea_collector.asgi:application"]
+        image: {{ .Values.web.image.name }}:{{ .Values.web.image.tag }}
+        command: ["/bin/bash",  "-c"]
+        args: ["pipenv run daphne -p 8080 -b 0.0.0.0 idea_collector.asgi:application"]
         ports:
         - containerPort: 8080
         env:
