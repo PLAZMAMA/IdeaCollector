@@ -7,6 +7,6 @@ WORKDIR /code
 
 RUN pip install --no-input --no-cache-dir pipenv
 COPY Pipfile Pipfile.lock /code/
-RUN pipenv install --system
+RUN pipenv install
 
 ADD . /code/
