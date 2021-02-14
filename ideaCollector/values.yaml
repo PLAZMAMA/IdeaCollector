@@ -81,6 +81,7 @@ affinity: {}
 postgresql:
   postgresqlUsername: needsToBeOverriden
   postgresqlPassword: needsToBeOverriden
+  fullnameOverride: needsToBeOverriden
   gloabl:
     storageClass: standart
 
@@ -93,3 +94,5 @@ web:
   image: 
     name: maorc112/idea_collector_web
     tag: needsToBeOverriden
+    command: ["/bin/bash",  "-c"]
+    args: ["pipenv run python manage.py makemigrations && pipenv run python manage.py migrate && pipenv run daphne -p 8080 -b 0.0.0.0 idea_collector.asgi:application"]
