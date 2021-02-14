@@ -13,6 +13,8 @@ djangorestframework = "*"
 coreapi = "*"
 whitenoise = "*"
 daphne = "*"
+celery = "*"
+django-celery-results = "*"
 
 [requires]
 python_version = "3.6"
