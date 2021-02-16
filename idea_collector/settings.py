@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_celery_results',
     'rest_framework',
+    'channels',
     'idea'
 ]
 
@@ -76,7 +77,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'idea_collector.wsgi.application'
-
+ASGI_APPLICATION = "myproject.asgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
