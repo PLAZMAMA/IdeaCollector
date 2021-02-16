@@ -12,9 +12,9 @@ psycopg2-binary = "*"
 djangorestframework = "*"
 coreapi = "*"
 whitenoise = "*"
-daphne = "*"
 celery = "*"
 django-celery-results = "*"
+channels = "*"
 
 [requires]
 python_version = "3.6"
