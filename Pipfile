@@ -13,7 +13,6 @@ djangorestframework = "*"
 coreapi = "*"
 whitenoise = "*"
 celery = "*"
-django-celery-results = "*"
 channels = "*"
 channels-redis = "*"
 
