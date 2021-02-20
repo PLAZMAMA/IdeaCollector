@@ -24,4 +24,4 @@ test-job:
 deploy-prod:
   stage: deploy
   script:
-    - echo helm upgrade idea-collector ideaCollector --set postgresql.postgresqlUsername=POSTGRESUSERNAME --set postgresql.postgresqlPassword=POSTGRESPASSWORD --set postgresql.fullnameOverride=POSTGRESHOST --set web.image.tag=TAG --set redis.fullnameOverride=REDIS_URL
+    - echo helm upgrade idea-collector ideaCollector --set postgresql.postgresqlUsername=POSTGRESUSERNAME --set postgresql.postgresqlPassword=POSTGRESPASSWORD --set postgresql.fullnameOverride=POSTGRESHOST --set web.image.tag=TAG --set redis.fullnameOverride=REDISNAME
