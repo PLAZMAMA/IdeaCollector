@@ -25,14 +25,14 @@ spec:
         - name: POSTGRESQLUSERNAME
           valueFrom:
             secretKeyRef:
-              name: postgres-credentials
+              name: postgres-redis-credentials
               key: username
         - name: POSTGRESQLPASSWORD
           valueFrom:
             secretKeyRef:
-              name: postgres-credentials
+              name: postgres-redis-credentials
               key: password
         - name: POSTGRESQLHOST
            secretKeyRef:
-              name: postgres-credentials
+              name: postgres-redis-credentials
               key: host
