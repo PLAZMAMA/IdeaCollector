@@ -85,6 +85,22 @@ postgresql:
   gloabl:
     storageClass: standart
 
+redis:
+  fullnameOverride: needsToBeOverriden
+  usePassword: false
+  cluster:
+    enabled: false
+    slaveCount: 0
+
+celery:
+  deployment_name: celery-worker
+  pod_name: celery-worker
+  container_name: idea-collector-celery
+  replicas: 1
+  image:
+    command: ["/bin/bash",  "-c"]
+    args: ["pipenv run celery -A tasks worker --loglevel=INFO"]
+
 web:
   service_name: idea-collector
   deployment_name: idea-collector
