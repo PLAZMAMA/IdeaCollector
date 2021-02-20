@@ -8,5 +8,7 @@ class GetMostRecent(AsyncWebsockerConsumer):
     async def disconnect(self):
         await self.channel_layer.group_discard('most_recent', self.channel_name)
 
-    async def get_most_recent(self):
+    async def get_most_recent(self, event):
+        ideas = [[idea.title, idea.description] for idea in event['text']]
+        await self.send(ideas)
         
