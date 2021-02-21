@@ -14,4 +14,7 @@ def get_most_recent_ideas(num_of_ideas, most_recent_ideas):
         most_recent_ideas = IdeaModel.objects.all().order_by('-date_time')[:num_of_ideas]
         sleep(3)
 
-    async_to_sync(channel_layer.group_send)('most_recent', {'type': 'get_most_recent','text': most_recent_ideas})
+    try:
+        async_to_sync(channel_layer.group_send)('most_recent', {'type': 'get_most_recent','text': most_recent_ideas})
+    except Exception as e:
+        print(f'no on is connected to the websocket connection: {e}')
