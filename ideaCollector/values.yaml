@@ -99,7 +99,7 @@ celery:
   replicas: 1
   image:
     command: ["/bin/bash",  "-c"]
-    args: ["pipenv run celery -A tasks worker --loglevel=INFO"]
+    args: ["pipenv run celery -A idea_collector worker --loglevel=INFO"]
 
 web:
   service_name: idea-collector
