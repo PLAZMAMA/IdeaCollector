@@ -1,11 +1,11 @@
 from channels.generic.websocket import AsyncWebsockerConsumer
-from idea_collector.celery import app
+from idea.tasks import publish_most_recent_ideas
 
-class GetMostRecent(AsyncWebsockerConsumer):
+class GetMostRecent(AsyncWebsocketConsumer):
     async def connect(self):
         await self.channel_layer.group_add('most_recent', self.channel_name)
         await self.accept()
-        await app.send_task('tasks.get_most_recent_ideas')
+        publish_most_recent_ideas.delay()
 
     async def disconnect(self):
         await self.channel_layer.group_discard('most_recent', self.channel_name)
