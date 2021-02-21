@@ -31,10 +31,12 @@ spec:
               name: postgres-redis-credentials
               key: password
         - name: POSTGRESQLHOST
-           secretKeyRef:
+          valueFrom:
+            secretKeyRef:
               name: postgres-redis-credentials
               key: host
         - name: REDIS_URL
-          secretKeyRef:
-            name: postgres-redis-credentials
-            key: redis_url
+          valueFrom:
+            secretKeyRef:
+              name: postgres-redis-credentials
+              key: redis_url
