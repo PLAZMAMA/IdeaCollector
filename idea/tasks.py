@@ -8,7 +8,7 @@ channel_layer = get_channel_layer()
 
 @shared_task
 def get_most_recent_ideas(num_of_ideas, most_recent_ideas):
-    """gets the most recent "num_of_ideas""""
+    """gets the most recent "num_of_ideas" ideas"""
     last_most_recent_ideas = most_recent_ideas
     while(last_most_recent_ideas != most_recent_ideas):
         most_recent_ideas = IdeaModel.objects.all().order_by('-date_time')[:num_of_ideas]
