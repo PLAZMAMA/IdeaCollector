@@ -33,6 +33,7 @@ spec:
               name: postgres-redis-credentials
               key: password
         - name: POSTGRESQLHOST
+          valueFrom:
            secretKeyRef:
               name: postgres-redis-credentials
               key: host
