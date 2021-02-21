@@ -1,7 +1,7 @@
 from rest_framework.viewsets import ModelViewSet
 from idea.models import IdeaModel
 from idea.serializers import IdeaSerializer
-from idea_collector.celery import app
+from idea.tasks import publish_most_recent_ideas
 from idea_collector.settings import DEBUG
 
 class IdeaViewSet(ModelViewSet):
@@ -9,6 +9,6 @@ class IdeaViewSet(ModelViewSet):
     serializer_class = IdeaSerializer
     def create(self, request, *args, **kwargs):
         if not(DEBUG):
-            app.send_task('tasks.get_most_recent_ideas')
+            publish_most_recent_ideas.delay()
             
         return super().create(request, *args, **kwargs)
