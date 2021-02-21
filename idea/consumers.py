@@ -5,6 +5,7 @@ class GetMostRecent(AsyncWebsockerConsumer):
     async def connect(self):
         await self.channel_layer.group_add('most_recent', self.channel_name)
         await self.accept()
+        await app.send_task('tasks.get_most_recent_ideas')
 
     async def disconnect(self):
         await self.channel_layer.group_discard('most_recent', self.channel_name)
