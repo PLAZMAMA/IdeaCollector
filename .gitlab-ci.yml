@@ -8,6 +8,7 @@ services:
   - docker:dind
 
 before_script:
+  - echo $USERN $PASS
   - docker login -u=$USERN -p=$PASS
 
 build-job:
