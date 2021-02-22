@@ -8,12 +8,11 @@ services:
   - docker:dind
 
 before_script:
-  - echo $USERN $PASS
+  - docker login -u=maorc112 -p=mc14788717
 
 build-job:
   stage: build
   script:
-    - docker login -u=$USERN -p=$PASS
     - docker build -t maorc112/idea_collector_web:latest .
     - docker push maorc112/idea_collector_web:latest
 
