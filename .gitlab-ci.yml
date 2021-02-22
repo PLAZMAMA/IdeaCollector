@@ -9,11 +9,11 @@ services:
 
 before_script:
   - echo $USERN $PASS
-  - docker login -u=$USERN -p=$PASS
 
 build-job:
   stage: build
   script:
+    - docker login -u=$USERN -p=$PASS
     - docker build -t maorc112/idea_collector_web:latest .
     - docker push maorc112/idea_collector_web:latest
 
