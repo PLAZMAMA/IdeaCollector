@@ -10,3 +10,4 @@ COPY Pipfile Pipfile.lock /code/
 RUN pipenv install
 
 ADD . /code/
+ENTRYPOINT ["/bin/bash"]
