@@ -98,7 +98,6 @@ celery:
   container_name: idea-collector-celery
   replicas: 1
   image:
-    command: ["/bin/bash",  "-c"]
     args: ["pipenv run celery -A idea_collector worker --loglevel=INFO"]
 
 web:
@@ -110,5 +109,4 @@ web:
   image: 
     name: maorc112/idea_collector_web
     tag: needsToBeOverriden
-    command: ["/bin/bash",  "-c"]
-    args: ["pipenv run python manage.py makemigrations && pipenv run python manage.py migrate && pipenv run python manage.py migrate django_celery_results && pipenv run daphne -p 8080 -b 0.0.0.0 idea_collector.asgi:application"]
+    args: ["pipenv run python manage.py makemigrations && pipenv run python manage.py migrate && pipenv run daphne -p 8080 -b 0.0.0.0 idea_collector.asgi:application"]
