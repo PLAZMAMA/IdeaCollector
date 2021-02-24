@@ -1,5 +1,6 @@
-from channels.generic.websocket import AsyncWebsockerConsumer
+from channels.generic.websocket import AsyncWebsocketConsumer
 from idea.tasks import publish_most_recent_ideas
+from idea_collector.celery import app
 
 class GetMostRecent(AsyncWebsocketConsumer):
     async def connect(self):
