@@ -15,6 +15,7 @@ whitenoise = "*"
 celery = "*"
 channels = "*"
 channels-redis = "*"
+redis="*"
 
 [requires]
 python_version = "3.6"
