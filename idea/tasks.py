@@ -6,7 +6,7 @@ from time import sleep
 
 channel_layer = get_channel_layer()
 
-@shared_task
+@shared_task(bind=True)
 def publish_most_recent_ideas(self, num_of_ideas=5):
     """gets the most recent "num_of_ideas" ideas"""
     most_recent_ideas = IdeaModel.objects.all().order_by('-date_time')[:num_of_ideas]
