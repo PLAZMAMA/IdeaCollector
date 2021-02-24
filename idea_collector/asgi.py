@@ -8,11 +8,11 @@ https://docs.djangoproject.com/en/3.0/howto/deployment/asgi/
 """
 
 import os
+from django.core.asgi import get_asgi_application
 #calling the asgi app so the following imports work
 django_asgi_app = get_asgi_application()
 
 from idea_collector.routing import ws_urlpatterns
-from django.core.asgi import get_asgi_application
 from channels.routing import ProtocolTypeRouter
 from channels.auth import AuthMiddlewareStack, URLRouter
 
