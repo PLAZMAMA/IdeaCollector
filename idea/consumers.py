@@ -13,7 +13,7 @@ class GetMostRecent(JsonWebsocketConsumer):
 
     async def send_most_recent(self, event):
         most_recent_ideas = [[idea.title, idea.description] for idea in event['text']]
-        await self.send_json({'data': ideas})
+        await self.send_json({'data': most_recent_ideas})
     
 class GetRandomIdea(JsonWebsocketConsumer):
     async def connect(self):
