@@ -8,6 +8,12 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'idea_collector.settings')
 app = Celery('idea_collector')
 app.config_from_object('django.conf:settings', namespace='CELERY')
 app.autodiscover_tasks()
+app.conf.beat_schedule = {
+    'get_random_idea': {
+        'task': 'tasks.get_random_idea',
+        'schedule': 5.0
+    }
+}
 
 
 @app.task(bind=True)

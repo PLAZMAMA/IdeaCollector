@@ -1,26 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.web.deployment_name }}
+  name: {{ .Values.celery.worker_deployment_name }}
   labels:
-    app: {{ .Values.web.pod_name }}
+    app: {{ .Values.celery.worker_pod_name }}
 spec:
-  replicas: {{ .Values.web.replicas }}
+  replicas: {{ .Values.celery.worker_replicas }}
   selector:
     matchLabels:
-      app: {{ .Values.web.pod_name }}
+      app: {{ .Values.celery.worker_pod_name }}
   template:
     metadata:
       labels:
-        app: {{ .Values.web.pod_name }}
+        app: {{ .Values.celery.worker_pod_name }}
     spec:
       containers:
-      - name: {{ .Values.web.container_name }}
+      - name: {{ .Values.celery.container_name }}
         image: {{ .Values.web.image.name }}:{{ .Values.web.image.tag }}
-        command: {{ .Values.web.image.command }}
-        args: {{ .Values.web.image.args }}
-        ports:
-        - containerPort: 8080
+        args: {{ .Values.celery.image.worker_args }}
         env:
         - name: POSTGRESQLUSERNAME
           valueFrom:
@@ -34,7 +31,7 @@ spec:
               key: password
         - name: POSTGRESQLHOST
           valueFrom:
-           secretKeyRef:
+            secretKeyRef:
               name: postgres-redis-credentials
               key: host
         - name: REDIS_URL
