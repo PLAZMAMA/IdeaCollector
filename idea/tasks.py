@@ -1,6 +1,6 @@
 from celery import shared_task
 from idea.models import IdeaModel
-from idea.views import IdeaView
+from idea.views import IdeaViewSet
 from idea.serializers import IdeaSerializer
 from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
