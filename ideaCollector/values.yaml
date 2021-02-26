@@ -93,12 +93,16 @@ redis:
     slaveCount: 0
 
 celery:
-  deployment_name: celery-worker
-  pod_name: celery-worker
+  worker_deployment_name: celery-worker
+  beat_deployment_name: celery-beat
+  worker_pod_name: celery-worker
+  beat_pod_name: celery-beat
   container_name: idea-collector-celery
-  replicas: 1
+  worker_replicas: 1
+  beat_replicas: 1
   image:
-    args: ["pipenv run celery -A idea_collector worker --loglevel=INFO"]
+    worker_args: ["pipenv run celery -A idea_collector worker --loglevel=INFO"]
+    beat_args: ["pipenv run celery -A idea_collector beat"]
 
 web:
   service_name: idea-collector
