@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.celery.beat_deployment_name }}
+  labels:
+    app: {{ .Values.celery.beat_pod_name }}
+spec:
+  replicas: {{ .Values.celery.beat_replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.celery.beat_pod_name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.celery.beat_pod_name }}
+    spec:
+      containers:
+      - name: {{ .Values.celery.container_name }}
+        image: {{ .Values.web.image.name }}:{{ .Values.web.image.tag }}
+        args: {{ .Values.celery.image.beat_args }}
+        env:
+        - name: POSTGRESQLUSERNAME
+          valueFrom:
+            secretKeyRef:
+              name: postgres-redis-credentials
+              key: username
+        - name: POSTGRESQLPASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: postgres-redis-credentials
+              key: password
+        - name: POSTGRESQLHOST
+          valueFrom:
+            secretKeyRef:
+              name: postgres-redis-credentials
+              key: host
+        - name: REDIS_URL
+          valueFrom:
+            secretKeyRef:
+              name: postgres-redis-credentials
+              key: redis_url
