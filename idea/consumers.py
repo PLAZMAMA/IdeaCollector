@@ -1,8 +1,8 @@
-from channels.generic.websocket import AsyncWebsocketConsumer
+from channels.generic.websocket import AsyncJsonWebsocketConsumer
 from idea.tasks import publish_most_recent_ideas
 from idea_collector.celery import app
 
-class GetMostRecent(JsonWebsocketConsumer):
+class GetMostRecent(AsyncJsonWebsocketConsumer):
     async def connect(self):
         await self.channel_layer.group_add('most_recent', self.channel_name)
         await self.accept()
@@ -15,7 +15,7 @@ class GetMostRecent(JsonWebsocketConsumer):
         most_recent_ideas = [[idea.title, idea.description] for idea in event['text']]
         await self.send_json({'data': most_recent_ideas})
     
-class GetRandomIdea(JsonWebsocketConsumer):
+class GetRandomIdea(AsyncJsonWebsocketConsumer):
     async def connect(self):
         await self.channel_layer.group_add('random_idea', self.channel_name)
         await self.accept()
