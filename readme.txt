@@ -1,1 +1,1 @@
-mock project to learn django and docker
+Simply web app that uses Django as its backend(uses both websockets and https for some of its requests), uses kubernetes as its runtime and helm for easy deployment to a kubernetes cluster
