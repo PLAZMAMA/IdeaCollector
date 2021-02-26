@@ -1,6 +1,5 @@
 from celery import shared_task
 from idea.models import IdeaModel
-from idea.views import IdeaViewSet
 from idea.serializers import IdeaSerializer
 from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
@@ -22,6 +21,6 @@ def publish_most_recent_ideas(self, num_of_ideas=5):
 
 @shared_task
 def get_random_idea():
-    ideas = IdeaViewSet.list()
-    random_idea = ideas[randint(0, len(ideas)-1)]
+    queryset = IdeaModel.objects.all()
+    random_idea = IdeaSerializer(queryset[randint(0, len(queryset)-1)])
     async_to_sync(channel_layer.group_send)('random_idea', {'type': 'get_random_idea', 'text': random_idea})
