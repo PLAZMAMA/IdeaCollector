@@ -22,6 +22,6 @@ def publish_most_recent_ideas(self, num_of_ideas=5):
 
 @shared_task
 def get_random_idea():
-    ideas = IdeaView.list()
+    ideas = IdeaViewSet.list()
     random_idea = ideas[randint(0, len(ideas)-1)]
     async_to_sync(channel_layer.group_send)('random_idea', {'type': 'get_random_idea', 'text': random_idea})
