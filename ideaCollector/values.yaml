@@ -98,7 +98,7 @@ channels_worker:
   container_name: channels-worker
   replicas: 1
   image:
-    args: ["pipenv run python manage.py runworker get-random-ideas get-random-idea"]
+    args: ["pipenv run python manage.py runworker get-most-recent-ideas get-random-idea"]
 
 celery:
   worker_deployment_name: celery-worker
