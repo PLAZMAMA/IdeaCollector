@@ -13,14 +13,19 @@ from django.core.asgi import get_asgi_application
 django_asgi_app = get_asgi_application()
 
 from idea_collector.routing import ws_urlpatterns
-from channels.routing import ProtocolTypeRouter
+from channels.routing import ProtocolTypeRouter, ChannelNameRouter
 from channels.auth import AuthMiddlewareStack
 from channels.routing import URLRouter
+from idea.consumers import PublishMostRecentIdeas, PublishRandomIdea
 
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'idea_collector.settings')
 
 application = ProtocolTypeRouter({
     'http': django_asgi_app,
-    'websocket': AuthMiddlewareStack(URLRouter(ws_urlpatterns))
+    'websocket': AuthMiddlewareStack(URLRouter(ws_urlpatterns)),
+    'channel': ChannelNameRouter({
+        'get-most-recent-ideas': PublishMostRecentIdeas.as_asgi(),
+        'get-random-idea': PublishRandomIdea.as_asgi()
+    })
 })
