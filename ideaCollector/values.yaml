@@ -92,6 +92,14 @@ redis:
     enabled: false
     slaveCount: 0
 
+channels_worker:
+  deployment_name: channels-worker
+  pod_name: channels-worker
+  container_name: channels-worker
+  replicas: 1
+  image:
+    args: ["pipenv run python manage.py runworker get-most-recent-ideas get-random-idea"]
+
 celery:
   worker_deployment_name: celery-worker
   beat_deployment_name: celery-beat

@@ -12,4 +12,16 @@ class IdeaViewSet(ModelViewSet):
         if not(DEBUG):
             publish_most_recent_ideas.delay()
             
-        return super().create(request, *args, **kwargs)
+        return super().create(request, args, kwargs)
+    
+    def update(self, request, *args, **kwargs):
+        if not(DEBUG):
+            publish_most_recent_ideas().delay()
+
+        return super().update(request, args, kwargs)
+
+    def delete(self, request, *args, **kwargs):
+        if not(DEBUG):
+            publish_most_recent_ideas().delay()
+
+        return super().delete(request, args, kwargs)

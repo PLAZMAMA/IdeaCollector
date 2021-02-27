@@ -79,7 +79,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'idea_collector.wsgi.application'
-ASGI_APPLICATION = "myproject.asgi.application"
+ASGI_APPLICATION = 'idea_collector.asgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
