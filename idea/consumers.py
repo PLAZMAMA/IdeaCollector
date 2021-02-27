@@ -1,12 +1,12 @@
 from channels.generic.websocket import AsyncJsonWebsocketConsumer
-from channels.consumer import SyncConsumer
+from channels.consumer import AsyncConsumer
 from idea.tasks import publish_most_recent_ideas
 from idea.serializers import IdeaSerializer
 from idea.models import IdeaModel
 from idea_collector.celery import app
 from asgiref.sync import async_to_sync
 from random import randint
-from time import sleep
+from asyncio import sleep
 
 #uses the celery for its workers
 class GetMostRecentIdea(AsyncJsonWebsocketConsumer):
@@ -65,23 +65,23 @@ class GetRandomIdeaChannels(AsyncJsonWebsocketConsumer):
 
     async def get_random_idea(self, sleep_time=5):
         while(True):
-            sleep(sleep_time)
-            await async_to_sync(self.channel_layer.send)('task-consumer', {'type': 'publish_random_idea'})
+            await sleep(sleep_time)
+            await self.channel_layer.send('task-consumer', {'type': 'publish_random_idea'})
 
 #used in the worker instance
-class TaskConsumer(SyncConsumer):
-    def publish_most_recent_ideas(self, num_of_ideas=5):
+class TaskConsumer(AsyncConsumer):
+    async def publish_most_recent_ideas(self, num_of_ideas=5):
         queryset = IdeaModel.objects.all().order_by('-date_time')[:num_of_ideas]
         most_recent_ideas = IdeaSerializer(queryset, many=True)
         try:
-            async_to_sync(self.channel_layer.group_send)('most_recent_channels', {'type': 'send_most_recent', 'text': most_recent_ideas})
+            await self.channel_layer.group_send('most_recent_channels', {'type': 'send_most_recent', 'text': most_recent_ideas})
 
         except Exception as e:
-            sleep(5)
-            async_to_sync(self.channel_layer.send)('task-consumer', {'type': 'publish_random_idea'})
+            await sleep(5)
+            await self.channel_layer.send('task-consumer', {'type': 'publish_random_idea'})
             raise Exception(f'no one is connected to the websocket connection but just in case, the function is runing again(retry): {e}')
 
-    def publish_random_idea(self):
+    async def publish_random_idea(self):
         queryset = IdeaModel.objects.all()
         random_idea = IdeaSerializer(queryset[randint(0, len(queryset)-1)])
-        async_to_sync(self.channel_layer.group_send)('random_idea_channels', {'type': 'send_random_idea', 'text': random_idea})
+        await self.channel_layer.group_send('random_idea_channels', {'type': 'send_random_idea', 'text': random_idea})
