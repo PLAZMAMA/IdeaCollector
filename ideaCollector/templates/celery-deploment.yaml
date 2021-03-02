@@ -1,0 +1,44 @@
+{{- range .Values.celery }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .deployment_name }}
+  labels:
+    app: {{ .pod_name }}
+spec:
+  replicas: {{ .replicas }}
+  selector:
+    matchLabels:
+      app: {{ .pod_name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .pod_name }}
+    spec:
+      containers:
+      - name: {{ .container_name }}
+        image: {{ $.Values.web.image.name }}:{{ $.Values.web.image.tag }}
+        args: {{ .args }}
+        env:
+        - name: POSTGRESQLUSERNAME
+          valueFrom:
+            secretKeyRef:
+              name: postgres-redis-credentials
+              key: username
+        - name: POSTGRESQLPASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: postgres-redis-credentials
+              key: password
+        - name: POSTGRESQLHOST
+          valueFrom:
+            secretKeyRef:
+              name: postgres-redis-credentials
+              key: host
+        - name: REDIS_URL
+          valueFrom:
+            secretKeyRef:
+              name: postgres-redis-credentials
+              key: redis_url
+{{ end }}
