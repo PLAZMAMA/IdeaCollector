@@ -101,18 +101,17 @@ channels_worker:
     args: ["pipenv run python manage.py runworker get-most-recent-ideas get-random-idea"]
 
 celery:
-- worker:
-    deployment_name: celery-worker
-    pod_name: celery-worker
-    container_name: idea-collector-celery
-    replicas: 1
-    args: ["pipenv run celery -A idea_collector worker --loglevel=INFO"]
-- beat:
-    deployment_name: celery-beat
-    pod_name: celery-beat
-    container_name: idea-collector-celery
-    replicas: 1
-    args: ["pipenv run celery -A idea_collector beat"]
+- deployment_name: celery-worker
+  pod_name: celery-worker
+  container_name: idea-collector-celery
+  replicas: 1
+  args: ["pipenv run celery -A idea_collector worker --loglevel=INFO"]
+  
+- deployment_name: celery-beat
+  pod_name: celery-beat
+  container_name: idea-collector-celery
+  replicas: 1
+  args: ["pipenv run celery -A idea_collector beat"]
 
 web:
   service_name: idea-collector
