@@ -24,12 +24,3 @@ spec:
                 type: integer
               celery_worker_replicas:
                 type: integer
-              postgres_name:
-                type: string
-              postgres_username:
-                type: string
-              postgres_password:
-                type: string
-              redis_name:
-                type: string
-              
