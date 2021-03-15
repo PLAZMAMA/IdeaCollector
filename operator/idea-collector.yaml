@@ -5,4 +5,3 @@ metadata:
 spec:
   web_app_replicas: 1
   celery_worker_replicas: 1
-  redis_name: idea-collector-redis-master
