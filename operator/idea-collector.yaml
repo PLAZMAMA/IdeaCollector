@@ -1,0 +1,11 @@
+apiVersion: kopf.dev/v1
+kind: IdeaCollector
+metadata:
+  name: my-idea-collector
+spec:
+  web_app_replicas: 1
+  celery_worker_replicas: 1
+  postgres_username: postgres
+  postgres_password: postgres
+  postgres_name: postgres-db
+  redis_name: idea-collector-redis-master
