@@ -45,5 +45,4 @@ def idea_collector(body, **kwargs):
                       value: {body['spec']['redis_name']}
             """)
         deployment = pykube.Deployment(api, deployment_data)
-        print("creating deployment ... mabye")
         deployment.create()
