@@ -1,12 +1,20 @@
 import kopf
 import pykube
 import yaml
+import inspect
 
 @kopf.on.create('idea-collectors')
 def idea_collector(body, **kwargs):
     deployment_configs = [
-        {'name': 'web', 'replicas': body['spec']['web_app_replicas'], 'command': '["pipenv run python manage.py makemigrations && pipenv run python manage.py migrate && pipenv run daphne -p 8080 -b 0.0.0.0 idea_collector.asgi:application"]'},
-        {'name': 'celery', 'replicas': body['spec']['celery_worker_replicas'], 'command': '["pipenv run celery -A idea_collector worker --loglevel=INFO"]'},
+        {
+        'name': 'web', 'replicas': body['spec']['web_app_replicas'],
+        'command': '["pipenv run python manage.py makemigrations && pipenv run python manage.py migrate && pipenv run daphne -p 8080 -b 0.0.0.0 idea_collector.asgi:application"]'
+        },
+        {
+        'name': 'celery', 
+        'replicas': body['spec']['celery_worker_replicas'], 
+        'command': '["pipenv run celery -A idea_collector worker --loglevel=INFO"]'
+        },
         ]
     api = pykube.HTTPClient(pykube.KubeConfig.from_file())
     for deployment_config in deployment_configs:
@@ -46,3 +54,7 @@ def idea_collector(body, **kwargs):
             """)
         deployment = pykube.Deployment(api, deployment_data)
         deployment.create()
+
+@kopf.on.update('idea-collectors')
+def update_idea_colletor(body, **kwargs):
+    pass
