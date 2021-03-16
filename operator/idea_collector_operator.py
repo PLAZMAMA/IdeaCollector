@@ -46,23 +46,23 @@ def idea_collector(body, **kwargs):
                     - name: POSTGRESQLUSERNAME
                       valueFrom:
                         secretKeyRef:
-                        name: postgres-redis-credentials
-                        key: username
+                          name: postgres-redis-credentials
+                          key: username
                     - name: POSTGRESQLPASSWORD
                       valueFrom:
                         secretKeyRef:
-                        name: postgres-redis-credentials
-                        key: password
+                          name: postgres-redis-credentials
+                          key: password
                     - name: POSTGRESQLHOST
                       valueFrom:
                         secretKeyRef:
-                        name: postgres-redis-credentials
-                        key: host
+                          name: postgres-redis-credentials
+                          key: host
                     - name: REDIS_URL
                       valueFrom:
                         secretKeyRef:
-                        name: postgres-redis-credentials
-                        key: redis_url
+                          name: postgres-redis-credentials
+                          key: redis_url
             """)
         deployment = pykube.Deployment(api, deployment_data)
         deployment.create()
