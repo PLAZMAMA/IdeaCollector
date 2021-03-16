@@ -10,3 +10,4 @@ urlpatterns = [
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+urlpatterns += static(settings.WEBSOCKET_URL, document_root=settings.WEBSOCKET_ROOT)
