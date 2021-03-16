@@ -17,6 +17,7 @@ def idea_collector(body, **kwargs):
         },
         ]
     api = pykube.HTTPClient(pykube.KubeConfig.from_file())
+    secret = pykube.Secret.objects(api).get(name='postgres-redis-credentials')
     for deployment_config in deployment_configs:
         deployment_data = yaml.full_load(f"""
             apiVersion: apps/v1
@@ -44,13 +45,25 @@ def idea_collector(body, **kwargs):
                     - containerPort: 8080
                     env:
                     - name: POSTGRESQLUSERNAME
-                      value: {body['spec']['postgres_username']}
+                      valueFrom:
+                        secretKeyRef:
+                        name: postgres-redis-credentials
+                        key: username
                     - name: POSTGRESQLPASSWORD
-                      value: {body['spec']['postgres_password']}
+                      valueFrom:
+                        secretKeyRef:
+                        name: postgres-redis-credentials
+                        key: password
                     - name: POSTGRESQLHOST
-                      value: {body['spec']['postgres_name']}
+                      valueFrom:
+                        secretKeyRef:
+                        name: postgres-redis-credentials
+                        key: host
                     - name: REDIS_URL
-                      value: {body['spec']['redis_name']}
+                      valueFrom:
+                        secretKeyRef:
+                        name: postgres-redis-credentials
+                        key: redis_url
             """)
         deployment = pykube.Deployment(api, deployment_data)
         deployment.create()
