@@ -31,6 +31,10 @@ ALLOWED_HOSTS = ['0.0.0.0', '*']
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = 'media/'
 
+#Websocket UI
+WEBSOCKET_ROOT = os.path.join(BASE_DIR, 'idea/templates')
+WEBSOCKET_URL = 'websocket/'
+
 #redis url
 BASE_REDIS_URL = os.environ.get('REDIS_URL')
 
