@@ -40,4 +40,20 @@ def idea_collector_create(body, **kwargs):
 
 @kopf.on.update('idea-collectors')
 def update_idea_colletor(body, **kwargs):
-    pass
+    #getting the api for the pykube client
+    api = pykube.HTTPClient(pykube.KubeConfig.from_file())
+
+    #getting the deployments that are action should be taken on them
+    web_deployment = pykube.Deployment.objects(api).get(name='idea-collector-web')
+    celery_deployment = pykube.Deployment.objects(api).get(name='idea-collector-celery')
+
+
+
+@kopf.on.delete('idea-collectors')
+def delete_idea_collector(body, **kwargs):
+    #getting the api for the pykube client
+    api = pykube.HTTPClient(pykube.KubeConfig.from_file())
+
+    #getting the deployments that are action should be taken on them
+    web_deployment = pykube.Deployment.objects(api).get(name='idea-collector-web')
+    celery_deployment = pykube.Deployment.objects(api).get(name='idea-collector-celery')
