@@ -64,3 +64,7 @@ def delete_idea_collector(body, **kwargs):
     #getting the deployments that are action should be taken on them
     web_deployment = pykube.Deployment.objects(api).get(name='idea-collector-web')
     celery_deployment = pykube.Deployment.objects(api).get(name='idea-collector-celery')
+
+    #deleting each deployment
+    web_deployment.delete()
+    celery_deployment.delete()
