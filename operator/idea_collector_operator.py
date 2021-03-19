@@ -47,6 +47,13 @@ def update_idea_colletor(body, **kwargs):
     web_deployment = pykube.Deployment.objects(api).get(name='idea-collector-web')
     celery_deployment = pykube.Deployment.objects(api).get(name='idea-collector-celery')
 
+    #changing the configurations of each deployment
+    web_deployment.obj['spec']['replicas'] = body['spec']['web_app_replicas']
+    celery_deployment.obj['spec']['replicas'] = body['spec']['celery_worker_replicas']
+
+    #updating the deployments
+    web_deployment.update()
+    celery_deployment.update()
 
 
 @kopf.on.delete('idea-collectors')
