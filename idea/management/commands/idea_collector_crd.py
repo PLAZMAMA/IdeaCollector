@@ -11,7 +11,8 @@ class Command(BaseCommand):
             crd_path = os.join.path(BASE_DIR, 'operator/idea-collector-crd')
             kopf_path = os.join.path(BASE_DIR, 'operator/idea_collector_operator')
             os.system(f'kubectl apply -f {crd_path}')
-            os.system(f'pipenv run kopf run {kopf_path}')
+            if options['verbose']:
+                os.system(f'pipenv run kopf run {kopf_path}')
         
         except Exception as e:
             raise Exception(f'pipenv or kubectl are not installed properly: {e}')
