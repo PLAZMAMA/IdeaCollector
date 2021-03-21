@@ -12,6 +12,9 @@ class Command(BaseCommand):
             kopf_path = os.join.path(BASE_DIR, 'operator/idea_collector_operator')
             os.system(f'kubectl apply -f {crd_path}')
             if options['verbose']:
+                os.system(f'pipenv run kopf run --verbose {kopf_path}')
+            
+            else:
                 os.system(f'pipenv run kopf run {kopf_path}')
         
         except Exception as e:
