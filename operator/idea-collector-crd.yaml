@@ -24,3 +24,9 @@ spec:
                 type: integer
               celery_worker_replicas:
                 type: integer
+  status:
+    acceptedNames:
+      kind: ""
+      plural: ""
+    conditions: []
+    storedVersions: []

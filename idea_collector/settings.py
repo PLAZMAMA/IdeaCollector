@@ -69,7 +69,7 @@ ROOT_URLCONF = 'idea_collector.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'operator/templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
